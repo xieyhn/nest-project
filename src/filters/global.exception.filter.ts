@@ -1,6 +1,6 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common'
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common'
 import { Response } from 'express'
-import { CommonException } from 'src/exception/common.exception'
+import { CommonException } from '../exception/common.exception'
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -12,7 +12,21 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR
     let message = ''
 
-    if (exception instanceof CommonException) {
+    if (exception instanceof HttpException) {
+      HttpStatusCode = HttpStatus.OK
+      statusCode = exception.getStatus()
+
+      // parameter error
+      if (statusCode === HttpStatus.BAD_REQUEST) {
+        message = (exception.getResponse() as any).message.join(',')
+      }
+      else if (statusCode === HttpStatus.NOT_FOUND) {
+        HttpStatusCode = HttpStatus.NOT_FOUND
+        statusCode = HttpStatus.NOT_FOUND
+        message = exception.message
+      }
+    }
+    else if (exception instanceof CommonException) {
       HttpStatusCode = 200
       statusCode = exception.getCode()
       message = exception.getMessage()
