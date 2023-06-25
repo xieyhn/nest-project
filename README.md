@@ -27,3 +27,4 @@ $ pnpm run start:prod
 - [ ] roles
 - [ ] redis
 - [ ] logger
+- [ ] 读取环境变量

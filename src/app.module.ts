@@ -3,6 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { JwtModule } from '@nestjs/jwt'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
+import { UserEntity } from './modules/user/entities/user.entity'
+import { RoleEntity } from './modules/user/entities/Role.entity'
+import { PermissionEntity } from './modules/user/entities/Permission.entity'
 
 @Module({
   imports: [
@@ -15,7 +18,11 @@ import { AuthModule } from './modules/auth/auth.module'
       database: 'nest',
       synchronize: true,
       logging: true,
-      autoLoadEntities: true,
+      entities: [
+        UserEntity,
+        RoleEntity,
+        PermissionEntity,
+      ],
     }),
     JwtModule.register({
       global: true,

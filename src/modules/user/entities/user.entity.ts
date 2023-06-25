@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Exclude } from 'class-transformer'
+import { RoleEntity } from './Role.entity'
 
 @Entity({
   name: 'user',
@@ -8,15 +9,20 @@ export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number
 
-  @Column({
-    unique: true,
-    comment: '用户账号',
-  })
+  @Column({ unique: true, length: 50 })
   userName: string
 
-  @Column({
-    comment: '用户密码',
-  })
+  @Column({ length: 50 })
   @Exclude()
   password: string
+
+  @JoinTable({ name: 'user_role' })
+  @ManyToMany(() => RoleEntity, role => role.users)
+  roles: RoleEntity[]
+
+  @CreateDateColumn()
+  createTime: Date
+
+  @UpdateDateColumn()
+  updateTime: Date
 }
