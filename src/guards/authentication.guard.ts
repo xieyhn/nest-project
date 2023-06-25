@@ -1,14 +1,20 @@
-import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common'
+import { CanActivate, ExecutionContext } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
+import { Reflector } from '@nestjs/core'
 import { CommonException } from '../exception/common.exception'
 
-@Injectable()
-export class AuthGuard implements CanActivate {
-  @Inject(JwtService)
-  private jwtService: JwtService
+export class AuthenticationGuard implements CanActivate {
+  private jwtService = new JwtService()
+
+  private reflector = new Reflector()
 
   async canActivate(context: ExecutionContext) {
+    const OptionalAuthentication = this.reflector.get<boolean>('OptionalAuthentication', context.getHandler())
+
+    if (OptionalAuthentication)
+      return true
+
     const request: Request = context.switchToHttp().getRequest()
     const authorization = request.header('authorization') ?? null
 
