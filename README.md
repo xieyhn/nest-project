@@ -26,3 +26,4 @@ $ pnpm run start:prod
 - [ ] swagger
 - [ ] roles
 - [ ] redis
+- [ ] logger
