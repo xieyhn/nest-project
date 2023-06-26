@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { JwtModule } from '@nestjs/jwt'
-import { APP_GUARD } from '@nestjs/core'
+import { CacheModule } from '@nestjs/cache-manager'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
-import { UserEntity } from './modules/user/entities/user.entity'
+import { UserEntity } from './modules/user/entities/User.entity'
 import { RoleEntity } from './modules/user/entities/Role.entity'
 import { PermissionEntity } from './modules/user/entities/Permission.entity'
-import { AuthenticationGuard } from './guards/authentication.guard'
 
 @Module({
   imports: [
@@ -26,6 +25,7 @@ import { AuthenticationGuard } from './guards/authentication.guard'
         PermissionEntity,
       ],
     }),
+    CacheModule.register({ isGlobal: true }),
     JwtModule.register({
       global: true,
       secret: 'xieyuhang',
@@ -35,9 +35,6 @@ import { AuthenticationGuard } from './guards/authentication.guard'
     }),
     UserModule,
     AuthModule,
-  ],
-  providers: [
-    { provide: APP_GUARD, useClass: AuthenticationGuard },
   ],
 })
 export class AppModule {}

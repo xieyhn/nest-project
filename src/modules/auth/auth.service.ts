@@ -3,7 +3,7 @@ import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { JwtService } from '@nestjs/jwt'
 import { CommonException } from '../../exception/common.exception'
-import { UserEntity } from '../../modules/user/entities/user.entity'
+import { UserEntity } from '../user/entities/User.entity'
 import { LoginDto } from './dto/Login.dto'
 import { RegisterDto } from './dto/Register.dto'
 
@@ -44,13 +44,13 @@ export class AuthService {
     if (!user)
       throw CommonException.USER_NOT_FOUND
 
-    const authorization = await this.jwtService.signAsync({
+    const token = await this.jwtService.signAsync({
       id: user.id,
       userName: user.userName,
     })
 
     return {
-      authorization,
+      token,
     }
   }
 }

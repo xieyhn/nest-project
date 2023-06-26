@@ -24,7 +24,8 @@ $ pnpm run start:prod
 ## TODO
 
 - [ ] swagger
-- [ ] roles
-- [ ] redis
+- [x] roles
+- [ ] cache / redis
 - [ ] logger
 - [ ] 读取环境变量
+- [ ] 异常是否合理，能否优化携带更多信息
