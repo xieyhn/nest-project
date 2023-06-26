@@ -10,7 +10,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     let HttpStatusCode: number = HttpStatus.INTERNAL_SERVER_ERROR
     let statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR
-    let message = ''
+    let message = 'Unexpected error'
 
     if (exception instanceof HttpException) {
       HttpStatusCode = HttpStatus.OK
