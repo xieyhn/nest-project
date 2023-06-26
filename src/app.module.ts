@@ -25,7 +25,9 @@ import { PermissionEntity } from './modules/user/entities/Permission.entity'
         PermissionEntity,
       ],
     }),
-    CacheModule.register({ isGlobal: true }),
+    CacheModule.register({
+      isGlobal: true,
+    }),
     JwtModule.register({
       global: true,
       secret: 'xieyuhang',
