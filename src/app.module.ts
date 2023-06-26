@@ -5,28 +5,21 @@ import { JwtModule } from '@nestjs/jwt'
 import { CacheModule } from '@nestjs/cache-manager'
 import { WinstonModule } from 'nest-winston'
 import * as winston from 'winston'
+import { ConfigModule } from '@nestjs/config'
+import { loadApplicationConfig } from 'src/common/application.config'
 import { UserModule } from './modules/user/user.module'
 import { AuthModule } from './modules/auth/auth.module'
-import { UserEntity } from './modules/user/entities/User.entity'
-import { RoleEntity } from './modules/user/entities/Role.entity'
-import { PermissionEntity } from './modules/user/entities/Permission.entity'
+import { DatabaseConfigService } from './common/database.config.service'
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'xyh@26...',
-      database: 'nest',
-      synchronize: true,
-      logging: true,
-      entities: [
-        UserEntity,
-        RoleEntity,
-        PermissionEntity,
-      ],
+    ConfigModule.forRoot({
+      isGlobal: true,
+      ignoreEnvFile: true,
+      load: [loadApplicationConfig],
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: DatabaseConfigService,
     }),
     CacheModule.register({
       isGlobal: true,
