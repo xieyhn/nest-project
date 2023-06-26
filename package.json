@@ -27,9 +27,12 @@
     "class-validator": "^0.14.0",
     "mysql2": "^3.4.0",
     "nest-project": "link:/Users/xieyuhang/workfile/nest-project",
+    "nest-winston": "^1.9.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "winston": "^3.9.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.5",
