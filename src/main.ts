@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core'
-import { ValidationPipe } from '@nestjs/common'
+import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
+import { ConfigService } from '@nestjs/config'
 import { AppModule } from './app.module'
 import { GlobalExceptionFilter } from './filters/global.exception.filter'
 import { TransformInterceptor } from './interceptors/transform.interceptor'
@@ -10,7 +11,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bufferLogs: true,
   })
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER))
+  const logger = app.get<LoggerService>(WINSTON_MODULE_NEST_PROVIDER)
+  const configService = app.get(ConfigService)
+  const port = configService.get<number>('port')
+
+  app.useLogger(logger)
 
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
@@ -18,7 +23,9 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionFilter())
   app.useGlobalInterceptors(new TransformInterceptor())
 
-  await app.listen(3000)
+  await app.listen(port)
+
+  logger.log(`Application is running on port: ${port}`)
 }
 
 bootstrap()
