@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { CommonException } from 'src/exceptions/common.exception'
+import { CommonException } from 'src/common/common.exception'
 import { UserEntity } from '../user/entities/User.entity'
 import { UserService } from '../user/user.service'
 import { LoginDto } from './dto/Login.dto'

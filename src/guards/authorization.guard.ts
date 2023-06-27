@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Inject } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Request } from 'express'
-import { CommonException } from 'src/exceptions/common.exception'
+import { CommonException } from 'src/common/common.exception'
 import { JwtService } from '@nestjs/jwt'
 import { PERMISSIONS_KEY, ROLES_KEY } from 'src/decorators/authorization.decorator'
 import { Cache } from 'cache-manager'

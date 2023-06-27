@@ -28,6 +28,6 @@ $ pnpm run start:prod
 - [x] cache / redis
 - [x] logger
 - [x] 读取环境变量
-- [ ] 异常是否合理，能否优化携带更多信息
 - [ ] 添加日志
 - [ ] 自动生成 CURD
+- [ ] 文件上传
