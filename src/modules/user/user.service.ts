@@ -5,16 +5,20 @@ import { UserEntity } from './entities/User.entity'
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>,
-  ) {}
+  @InjectRepository(UserEntity)
+  private userRepository: Repository<UserEntity>
+
+  create(user: UserEntity) {
+    return this.userRepository.save(user)
+  }
+
+  findOneBy(condition: Partial<UserEntity>) {
+    return this.userRepository.findOneBy(condition)
+  }
 
   async getUserInfo(id: number) {
     return {
-      user: await this.userRepository.findOneBy({
-        id,
-      }),
+      user: await this.findOneBy({ id }),
     }
   }
 }

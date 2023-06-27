@@ -3,7 +3,7 @@ import { Request } from 'express'
 import { AuthorizationGuard } from 'src/guards/authorization.guard'
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston'
 import { Logger } from 'winston'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { UserService } from './user.service'
 
 @Controller('user')
@@ -17,6 +17,7 @@ export class UserController {
 
   @Post('getUserInfo')
   @UseGuards(AuthorizationGuard)
+  @ApiOperation({ summary: 'Get user info' })
   getUserInfo(@Req() request: Request) {
     this.logger.info('deg getUserInfo log test %s %s', { a: 'b' }, { c: 'd' })
     this.logger.error('Unexpected error: %', new Error('Test error'))
