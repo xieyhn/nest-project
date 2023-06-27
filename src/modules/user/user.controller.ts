@@ -3,9 +3,11 @@ import { Request } from 'express'
 import { AuthorizationGuard } from 'src/guards/authorization.guard'
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston'
 import { Logger } from 'winston'
+import { ApiTags } from '@nestjs/swagger'
 import { UserService } from './user.service'
 
 @Controller('user')
+@ApiTags('user')
 export class UserController {
   @Inject(UserService)
   private userService: UserService

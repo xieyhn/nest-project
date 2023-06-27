@@ -23,7 +23,7 @@ $ pnpm run start:prod
 
 ## TODO
 
-- [ ] swagger
+- [x] swagger
 - [x] roles
 - [x] cache / redis
 - [x] logger

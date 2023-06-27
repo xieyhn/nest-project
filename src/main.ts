@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config'
 import { AppModule } from './app.module'
 import { GlobalExceptionFilter } from './filters/global.exception.filter'
 import { TransformInterceptor } from './interceptors/transform.interceptor'
+import { setup as swaggerSetup } from './swagger'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -22,6 +23,9 @@ async function bootstrap() {
   }))
   app.useGlobalFilters(new GlobalExceptionFilter())
   app.useGlobalInterceptors(new TransformInterceptor())
+
+  // setup swagger
+  swaggerSetup(app)
 
   await app.listen(port)
 
