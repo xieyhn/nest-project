@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { JwtModule } from '@nestjs/jwt'
 import { CacheModule } from '@nestjs/cache-manager'
@@ -10,6 +10,7 @@ import { AuthModule } from 'src/modules/auth/auth.module'
 import { DatabaseConfigService } from 'src/common/database.config.service'
 import { JwtConfigService } from 'src/common/jwt.config.service'
 import { WinstonConfigService } from 'src/common/winston.config.service'
+import { RequestIDMiddleware } from './middlewares/request.id.middleware'
 
 @Module({
   imports: [
@@ -35,4 +36,8 @@ import { WinstonConfigService } from 'src/common/winston.config.service'
     AuthModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestIDMiddleware).forRoutes('*')
+  }
+}

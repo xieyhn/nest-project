@@ -7,6 +7,7 @@ import { GlobalExceptionFilter } from 'src/filters/global.exception.filter'
 import { TransformInterceptor } from 'src/interceptors/transform.interceptor'
 import { setup as swaggerSetup } from 'src/swagger'
 import { AppModule } from './app.module'
+import { LogInterceptor } from './interceptors/log.interceptor'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -21,8 +22,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
   }))
-  app.useGlobalFilters(new GlobalExceptionFilter())
-  app.useGlobalInterceptors(new TransformInterceptor())
+  app.useGlobalFilters(new GlobalExceptionFilter(logger))
+  app.useGlobalInterceptors(new LogInterceptor(logger), new TransformInterceptor())
 
   // setup swagger
   swaggerSetup(app)

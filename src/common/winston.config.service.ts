@@ -1,10 +1,10 @@
-import { format as utilFormat } from 'node:util'
 import { format, transports } from 'winston'
 import { WinstonModuleOptions, WinstonModuleOptionsFactory } from 'nest-winston'
 import { ConfigService } from '@nestjs/config'
-import { Inject } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import DailyRotateFile from 'winston-daily-rotate-file'
 
+@Injectable()
 export class WinstonConfigService implements WinstonModuleOptionsFactory {
   @Inject(ConfigService)
   private configService: ConfigService
@@ -21,8 +21,7 @@ export class WinstonConfigService implements WinstonModuleOptionsFactory {
         format.colorize(),
         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss.SSS' }),
         format.printf((info) => {
-          const splat = info[Symbol.for('splat')]
-          return `[${info.timestamp}][${info.level}]: ${splat ? utilFormat(info.message, ...splat) : info.message}`
+          return `[${info.timestamp}][${info.level}]: ${info.message}`
         }),
       ),
       transports: [

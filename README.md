@@ -28,6 +28,7 @@ $ pnpm run start:prod
 - [x] cache / redis
 - [x] logger
 - [x] 读取环境变量
-- [ ] 添加日志
+- [x] 添加日志
 - [ ] 自动生成 CURD
 - [ ] 文件上传
+- [x] request id 搭配日志使用

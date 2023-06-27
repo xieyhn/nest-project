@@ -1,9 +1,13 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common'
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, LoggerService } from '@nestjs/common'
 import { Response } from 'express'
 import { CommonException } from 'src/common/common.exception'
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
+  constructor(
+    private readonly logger: LoggerService,
+  ) {}
+
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<Response>()
@@ -30,6 +34,17 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       HttpStatusCode = 200
       statusCode = exception.getCode()
       message = exception.getMessage()
+    }
+    else {
+      if (exception instanceof Error) {
+        this.logger.error(exception.stack)
+      }
+      else {
+        try {
+          this.logger.error(exception)
+        }
+        catch {}
+      }
     }
 
     response
