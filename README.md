@@ -26,6 +26,6 @@ $ pnpm run start:prod
 - [ ] swagger
 - [x] roles
 - [x] cache / redis
-- [ ] logger
-- [ ] 读取环境变量
+- [x] logger
+- [x] 读取环境变量
 - [ ] 异常是否合理，能否优化携带更多信息
