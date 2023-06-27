@@ -5,11 +5,11 @@ import { CacheModule } from '@nestjs/cache-manager'
 import { WinstonModule } from 'nest-winston'
 import { ConfigModule } from '@nestjs/config'
 import { loadApplicationConfig } from 'src/common/application.config'
-import { UserModule } from './modules/user/user.module'
-import { AuthModule } from './modules/auth/auth.module'
-import { DatabaseConfigService } from './common/database.config.service'
-import { JwtConfigService } from './common/jwt.config.service'
-import { WinstonConfigService } from './common/winston.config.service'
+import { UserModule } from 'src/modules/user/user.module'
+import { AuthModule } from 'src/modules/auth/auth.module'
+import { DatabaseConfigService } from 'src/common/database.config.service'
+import { JwtConfigService } from 'src/common/jwt.config.service'
+import { WinstonConfigService } from 'src/common/winston.config.service'
 
 @Module({
   imports: [

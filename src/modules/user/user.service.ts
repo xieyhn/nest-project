@@ -1,19 +1,23 @@
 import { Injectable } from '@nestjs/common'
-import { Repository } from 'typeorm'
-import { InjectRepository } from '@nestjs/typeorm'
+import { EntityManager, FindOneOptions } from 'typeorm'
+import { InjectEntityManager } from '@nestjs/typeorm'
 import { UserEntity } from './entities/User.entity'
 
 @Injectable()
 export class UserService {
-  @InjectRepository(UserEntity)
-  private userRepository: Repository<UserEntity>
+  @InjectEntityManager()
+  private entityManager: EntityManager
 
   create(user: UserEntity) {
-    return this.userRepository.save(user)
+    return this.entityManager.save(user)
+  }
+
+  findOne(options: FindOneOptions<UserEntity>) {
+    return this.entityManager.findOne(UserEntity, options)
   }
 
   findOneBy(condition: Partial<UserEntity>) {
-    return this.userRepository.findOneBy(condition)
+    return this.entityManager.findOneBy(UserEntity, condition)
   }
 
   async getUserInfo(id: number) {

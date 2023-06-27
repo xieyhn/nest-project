@@ -1,14 +1,13 @@
 import { CanActivate, ExecutionContext, Inject } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import { Request } from 'express'
-import { Repository } from 'typeorm'
-import { InjectRepository } from '@nestjs/typeorm'
-import { CommonException } from 'src/exception/common.exception'
+import { CommonException } from 'src/exceptions/common.exception'
 import { JwtService } from '@nestjs/jwt'
 import { PERMISSIONS_KEY, ROLES_KEY } from 'src/decorators/authorization.decorator'
 import { Cache } from 'cache-manager'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
-import { UserEntity } from '../modules/user/entities/User.entity'
+import { UserService } from 'src/modules/user/user.service'
+import { UserEntity } from 'src/modules/user/entities/User.entity'
 
 export class AuthorizationGuard implements CanActivate {
   @Inject(JwtService)
@@ -17,11 +16,11 @@ export class AuthorizationGuard implements CanActivate {
   @Inject(Reflector)
   private reflector: Reflector
 
+  @Inject(UserService)
+  private userService: UserService
+
   @Inject(CACHE_MANAGER)
   private cacheManager: Cache
-
-  @InjectRepository(UserEntity)
-  private userRepository: Repository<UserEntity>
 
   async canActivate(context: ExecutionContext) {
     const request: Request = context.switchToHttp().getRequest()
@@ -38,12 +37,10 @@ export class AuthorizationGuard implements CanActivate {
       throw CommonException.INVALID_TOKEN
     }
 
-    const requiredRoleNames = this.reflector.get<string[]>(ROLES_KEY, context.getHandler())
-    const requiredPermissionNames = this.reflector.get<string[]>(PERMISSIONS_KEY, context.getHandler())
     let user = await this.cacheManager.get<UserEntity>(`user:${request.user.id}`)
 
     if (!user) {
-      user = await this.userRepository.findOne({
+      user = await this.userService.findOne({
         where: {
           id: request.user.id,
         },
@@ -53,9 +50,14 @@ export class AuthorizationGuard implements CanActivate {
           },
         },
       })
+      if (!user)
+        throw CommonException.INVALID_TOKEN
+
       await this.cacheManager.set(`user:${request.user.id}`, user)
     }
 
+    const requiredRoleNames = this.reflector.get<string[]>(ROLES_KEY, context.getHandler())
+    const requiredPermissionNames = this.reflector.get<string[]>(PERMISSIONS_KEY, context.getHandler())
     const userRoleNames = user.roles.map(role => role.name)
 
     if (requiredRoleNames && requiredRoleNames.some(roleName => !userRoleNames.includes(roleName)))
