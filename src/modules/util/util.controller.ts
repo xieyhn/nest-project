@@ -6,10 +6,18 @@ import { diskStorage } from 'multer'
 import { v4 as uuidV4 } from 'uuid'
 import { loadApplicationConfig } from 'src/common/application.config'
 import { get } from 'lodash'
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
+import { FilesUpdateDto } from './dto/files-upload.dto'
 
 @Controller('util')
+@ApiTags('util')
 export class UtilController {
   @Post('upload')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: '多文件上传',
+    type: FilesUpdateDto,
+  })
   @UseInterceptors(FilesInterceptor('files', 9, {
     storage: diskStorage({
       destination: (_, __, cb) => {
