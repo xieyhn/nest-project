@@ -12,6 +12,7 @@ import { JwtConfigService } from 'src/common/jwt.config.service'
 import { WinstonConfigService } from 'src/common/winston.config.service'
 import { RequestIDMiddleware } from './middlewares/request-id.middleware'
 import { UtilModule } from './modules/util/util.module'
+import { UserService } from './modules/user/user.service'
 
 @Module({
   imports: [
@@ -36,6 +37,9 @@ import { UtilModule } from './modules/util/util.module'
     UserModule,
     AuthModule,
     UtilModule,
+  ],
+  providers: [
+    UserService,
   ],
 })
 export class AppModule implements NestModule {
