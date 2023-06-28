@@ -1,18 +1,14 @@
 import { extname } from 'node:path'
-import { Controller, Inject, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Controller, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
 import { AuthorizationGuard } from 'src/guards/authorization.guard'
 import { diskStorage } from 'multer'
 import { v4 as uuidV4 } from 'uuid'
-import { ConfigService } from '@nestjs/config'
 import { loadApplicationConfig } from 'src/common/application.config'
 import { get } from 'lodash'
 
 @Controller('util')
 export class UtilController {
-  @Inject(ConfigService)
-  private configService: ConfigService
-
   @Post('upload')
   @UseInterceptors(FilesInterceptor('files', 9, {
     storage: diskStorage({
