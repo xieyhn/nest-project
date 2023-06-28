@@ -11,6 +11,7 @@ import { LogInterceptor } from './interceptors/log.interceptor'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
     bufferLogs: true,
   })
   const logger = app.get<LoggerService>(WINSTON_MODULE_NEST_PROVIDER)

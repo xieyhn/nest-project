@@ -11,6 +11,7 @@ import { DatabaseConfigService } from 'src/common/database.config.service'
 import { JwtConfigService } from 'src/common/jwt.config.service'
 import { WinstonConfigService } from 'src/common/winston.config.service'
 import { RequestIDMiddleware } from './middlewares/request.id.middleware'
+import { UtilModule } from './modules/util/util.module'
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { RequestIDMiddleware } from './middlewares/request.id.middleware'
     }),
     UserModule,
     AuthModule,
+    UtilModule,
   ],
 })
 export class AppModule implements NestModule {

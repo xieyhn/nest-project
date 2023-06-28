@@ -1,6 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus, LoggerService } from '@nestjs/common'
 import { Response } from 'express'
 import { CommonException } from 'src/common/common.exception'
+import { castArray } from 'lodash'
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -16,35 +17,35 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let statusCode: number = HttpStatus.INTERNAL_SERVER_ERROR
     let message = 'Unexpected error'
 
-    if (exception instanceof HttpException) {
-      HttpStatusCode = HttpStatus.OK
-      statusCode = exception.getStatus()
+    try {
+      if (exception instanceof HttpException) {
+        HttpStatusCode = HttpStatus.OK
+        statusCode = exception.getStatus()
 
-      // parameter error
-      if (statusCode === HttpStatus.BAD_REQUEST) {
-        message = (exception.getResponse() as any).message.join(',')
+        // parameter error
+        if (statusCode === HttpStatus.BAD_REQUEST) {
+          message = castArray((exception.getResponse() as any).message).join(',')
+        }
+        else if (statusCode === HttpStatus.NOT_FOUND) {
+          HttpStatusCode = HttpStatus.NOT_FOUND
+          statusCode = HttpStatus.NOT_FOUND
+          message = exception.message
+        }
       }
-      else if (statusCode === HttpStatus.NOT_FOUND) {
-        HttpStatusCode = HttpStatus.NOT_FOUND
-        statusCode = HttpStatus.NOT_FOUND
-        message = exception.message
-      }
-    }
-    else if (exception instanceof CommonException) {
-      HttpStatusCode = 200
-      statusCode = exception.getCode()
-      message = exception.getMessage()
-    }
-    else {
-      if (exception instanceof Error) {
-        this.logger.error(exception.stack)
+      else if (exception instanceof CommonException) {
+        HttpStatusCode = 200
+        statusCode = exception.getCode()
+        message = exception.getMessage()
       }
       else {
-        try {
-          this.logger.error(exception)
-        }
-        catch {}
+        throw exception
       }
+    }
+    catch (err) {
+      if (err instanceof Error)
+        this.logger.error(exception.stack)
+      else
+        this.logger.error(err)
     }
 
     response
