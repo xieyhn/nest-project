@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { CommonException } from 'src/common/common.exception'
+import { CommonException } from 'src/common/exception'
 import { UserEntity } from '../user/entities/User.entity'
 import { UserService } from '../user/user.service'
-import { LoginDto } from './dto/Login.dto'
-import { RegisterDto } from './dto/Register.dto'
+import { LoginRequestDto } from './dtos/login.dto'
+import { RegisterRequestDto } from './dtos/register.dto'
 
 @Injectable()
 export class AuthService {
@@ -14,25 +14,25 @@ export class AuthService {
   @Inject(JwtService)
   private jwtService: JwtService
 
-  async register(registerDto: RegisterDto) {
-    let user = await this.userService.findOneBy({ userName: registerDto.userName })
+  async register(registerRequestDto: RegisterRequestDto) {
+    let user = await this.userService.findOneBy({ userName: registerRequestDto.userName })
 
     if (user)
       throw CommonException.USER_EXIST
 
     user = new UserEntity()
-    user.userName = registerDto.userName
-    user.password = registerDto.password
+    user.userName = registerRequestDto.userName
+    user.password = registerRequestDto.password
 
-    await this.userService.create(user)
+    await this.userService.save(user)
 
     return null
   }
 
-  async userLogin(loginDto: LoginDto) {
+  async userLogin(loginRequestDto: LoginRequestDto) {
     const user = await this.userService.findOneBy({
-      userName: loginDto.userName,
-      password: loginDto.password,
+      userName: loginRequestDto.userName,
+      password: loginRequestDto.password,
     })
 
     if (!user)

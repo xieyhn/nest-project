@@ -4,22 +4,21 @@ import { JwtModule } from '@nestjs/jwt'
 import { CacheModule } from '@nestjs/cache-manager'
 import { WinstonModule } from 'nest-winston'
 import { ConfigModule } from '@nestjs/config'
-import { loadApplicationConfig } from 'src/common/application.config'
 import { UserModule } from 'src/modules/user/user.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
-import { DatabaseConfigService } from 'src/common/database.config.service'
-import { JwtConfigService } from 'src/common/jwt.config.service'
-import { WinstonConfigService } from 'src/common/winston.config.service'
-import { RequestIDMiddleware } from './middlewares/request-id.middleware'
+import { DatabaseConfigService } from 'src/services/database.service'
+import { JwtConfigService } from 'src/services/jwt.service'
+import { WinstonConfigService } from 'src/services/winston.service'
+import { RequestIDMiddleware } from './middlewares/requestId.middleware'
 import { UtilModule } from './modules/util/util.module'
-import { UserService } from './modules/user/user.service'
+import { configuration } from './common/configuration'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: true,
-      load: [loadApplicationConfig],
+      load: [configuration],
     }),
     TypeOrmModule.forRootAsync({
       useClass: DatabaseConfigService,
@@ -37,9 +36,6 @@ import { UserService } from './modules/user/user.service'
     UserModule,
     AuthModule,
     UtilModule,
-  ],
-  providers: [
-    UserService,
   ],
 })
 export class AppModule implements NestModule {

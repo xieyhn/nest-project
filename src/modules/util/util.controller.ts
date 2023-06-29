@@ -4,10 +4,11 @@ import { FilesInterceptor } from '@nestjs/platform-express'
 import { AuthorizationGuard } from 'src/guards/authorization.guard'
 import { diskStorage } from 'multer'
 import { v4 as uuidV4 } from 'uuid'
-import { loadApplicationConfig } from 'src/common/application.config'
+import { configuration } from 'src/common/configuration'
 import { get } from 'lodash'
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
-import { FilesUpdateDto } from './dto/files-upload.dto'
+import { ApiCommonResponse } from 'src/decorators/apiCommonResponse.decorator'
+import { FilesUpdateRequestDto, FilesUpdateResponseDto } from './dtos/filesUpload.dto'
 
 @Controller('util')
 @ApiTags('util')
@@ -16,12 +17,13 @@ export class UtilController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: '多文件上传',
-    type: FilesUpdateDto,
+    type: FilesUpdateRequestDto,
   })
+  @ApiCommonResponse(FilesUpdateResponseDto)
   @UseInterceptors(FilesInterceptor('files', 9, {
     storage: diskStorage({
       destination: (_, __, cb) => {
-        const config = loadApplicationConfig()
+        const config = configuration()
         cb(null, get(config, 'upload.dest'))
       },
       filename: (_, file, cb) => {
@@ -30,7 +32,7 @@ export class UtilController {
     }),
   }))
   @UseGuards(AuthorizationGuard)
-  upload(@UploadedFiles() files: Array<Express.Multer.File>) {
+  upload(@UploadedFiles() files: Array<Express.Multer.File>): FilesUpdateResponseDto {
     return {
       files: files.map(file => file.filename),
     }

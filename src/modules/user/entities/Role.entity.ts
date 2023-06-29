@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { ApiHideProperty } from '@nestjs/swagger'
 import { UserEntity } from './User.entity'
 import { PermissionEntity } from './Permission.entity'
 
@@ -12,6 +13,7 @@ export class RoleEntity {
   @Column({ length: 20 })
   name: string
 
+  @ApiHideProperty()
   @ManyToMany(() => UserEntity, user => user.roles)
   users: UserEntity[]
 

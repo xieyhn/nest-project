@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Exclude } from 'class-transformer'
+import { ApiHideProperty } from '@nestjs/swagger'
 import { RoleEntity } from './Role.entity'
 
 @Entity({
@@ -14,6 +15,7 @@ export class UserEntity {
 
   @Column({ length: 50 })
   @Exclude()
+  @ApiHideProperty()
   password: string
 
   @JoinTable({ name: 'user_role' })

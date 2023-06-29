@@ -19,7 +19,7 @@ export class DatabaseConfigService implements TypeOrmOptionsFactory {
       database: this.configService.get('db.mysql.database'),
       synchronize: true,
       entities: [
-        resolve(__dirname, '../modules/**/entities/*.entity{.ts,.js}'),
+        resolve(__dirname, '../modules/**/entities/*.entity.{ts,js}'),
       ],
     }
   }
