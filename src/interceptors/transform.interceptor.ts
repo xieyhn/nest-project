@@ -3,7 +3,7 @@ import { instanceToPlain } from 'class-transformer'
 import { Observable, map } from 'rxjs'
 
 export interface Response<T> {
-  statusCode: number
+  code: number
   data: T
 }
 
@@ -13,7 +13,7 @@ export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> 
       .handle()
       .pipe(
         map(data => ({
-          statusCode: 0,
+          code: 0,
           data: instanceToPlain(data) as T,
         })),
       )

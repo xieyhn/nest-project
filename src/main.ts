@@ -21,6 +21,7 @@ async function bootstrap() {
   app.useLogger(logger)
 
   app.useGlobalPipes(new ValidationPipe({
+    // 将入参的普通对象转为 DTO 类实例
     transform: true,
   }))
   app.useGlobalFilters(new GlobalExceptionFilter(logger))

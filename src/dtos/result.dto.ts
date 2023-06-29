@@ -1,7 +1,7 @@
 import { ApiHideProperty } from '@nestjs/swagger'
 
 export class ResultDto<T> {
-  statusCode: number
+  code: number
 
   message?: string
 

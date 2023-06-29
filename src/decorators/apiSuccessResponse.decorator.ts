@@ -1,9 +1,10 @@
 import { Type, applyDecorators } from '@nestjs/common'
-import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger'
+import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger'
 import { ResultDto } from 'src/dtos/result.dto'
 
-export function ApiCommonResponse<TDto extends Type<any>>(dto: TDto) {
+export function ApiSuccessResponse<TDto extends Type<any>>(dto: TDto) {
   return applyDecorators(
+    ApiExtraModels(dto),
     ApiOkResponse({
       schema: {
         allOf: [

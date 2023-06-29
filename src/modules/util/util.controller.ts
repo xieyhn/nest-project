@@ -1,5 +1,5 @@
 import { extname } from 'node:path'
-import { Controller, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Controller, HttpCode, HttpStatus, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
 import { AuthorizationGuard } from 'src/guards/authorization.guard'
 import { diskStorage } from 'multer'
@@ -7,19 +7,20 @@ import { v4 as uuidV4 } from 'uuid'
 import { configuration } from 'src/common/configuration'
 import { get } from 'lodash'
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
-import { ApiCommonResponse } from 'src/decorators/apiCommonResponse.decorator'
+import { ApiSuccessResponse } from 'src/decorators/apiSuccessResponse.decorator'
 import { FilesUpdateRequestDto, FilesUpdateResponseDto } from './dtos/filesUpload.dto'
 
 @Controller('util')
 @ApiTags('util')
 export class UtilController {
   @Post('upload')
+  @HttpCode(HttpStatus.OK)
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: '多文件上传',
     type: FilesUpdateRequestDto,
   })
-  @ApiCommonResponse(FilesUpdateResponseDto)
+  @ApiSuccessResponse(FilesUpdateResponseDto)
   @UseInterceptors(FilesInterceptor('files', 9, {
     storage: diskStorage({
       destination: (_, __, cb) => {
