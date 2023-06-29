@@ -4,7 +4,7 @@ import { LoginRequestDto } from './dtos/login.dto'
 import { AuthService } from './auth.service'
 import { RegisterRequestDto } from './dtos/register.dto'
 
-@Controller('auth')
+@Controller('/auth')
 @ApiTags('auth')
 export class AuthController {
   @Inject(AuthService)
