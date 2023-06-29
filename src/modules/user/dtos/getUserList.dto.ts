@@ -1,5 +1,5 @@
 import { PageRequestDto, PageResponseDto } from 'src/dtos/page.dto'
-import { ValidatePage } from 'src/decorators/validatePage.decorator'
+import { ValidatePage } from 'src/decorators/ValidatePage.decorator'
 import { UserEntity } from '../entities/User.entity'
 
 export class GetUserListRequestDto {

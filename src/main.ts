@@ -3,11 +3,11 @@ import { LoggerService, ValidationPipe } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 import { ConfigService } from '@nestjs/config'
-import { GlobalExceptionFilter } from 'src/filters/globalException.filter'
-import { TransformInterceptor } from 'src/interceptors/transform.interceptor'
+import { GlobalExceptionFilter } from 'src/filters/GlobalException.filter'
+import { TransformInterceptor } from 'src/interceptors/Transform.interceptor'
 import { setup as swaggerSetup } from 'src/swagger'
 import { AppModule } from './app.module'
-import { LogInterceptor } from './interceptors/log.interceptor'
+import { LogInterceptor } from './interceptors/Log.interceptor'
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { TypeormCRUDService } from 'src/services/typeorm-crud.service'
+import { TypeormCRUDService } from 'src/services/TypeormCRUD.service'
 import { FindOptionsWhere, Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities/User.entity'

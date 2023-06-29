@@ -3,12 +3,13 @@ import { Reflector } from '@nestjs/core'
 import { Request } from 'express'
 import { CommonException } from 'src/common/exception'
 import { JwtService } from '@nestjs/jwt'
-import { PERMISSIONS_KEY, ROLES_KEY } from 'src/decorators/authorization.decorator'
 import { Cache } from 'cache-manager'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { UserService } from 'src/modules/user/user.service'
 import { UserEntity } from 'src/modules/user/entities/User.entity'
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
+import { ROLES_KEY } from 'src/decorators/Roles.decorator'
+import { PERMISSIONS_KEY } from 'src/decorators/Permissions.decorator'
 
 export class AuthorizationGuard implements CanActivate {
   @Inject(JwtService)

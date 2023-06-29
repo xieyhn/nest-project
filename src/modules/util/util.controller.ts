@@ -1,13 +1,13 @@
 import { extname } from 'node:path'
 import { Controller, HttpCode, HttpStatus, Post, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FilesInterceptor } from '@nestjs/platform-express'
-import { AuthorizationGuard } from 'src/guards/authorization.guard'
+import { AuthorizationGuard } from 'src/guards/Authorization.guard'
 import { diskStorage } from 'multer'
 import { v4 as uuidV4 } from 'uuid'
 import { configuration } from 'src/common/configuration'
 import { get } from 'lodash'
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
-import { ApiSuccessResponse } from 'src/decorators/apiSuccessResponse.decorator'
+import { ApiSuccessResponse } from 'src/decorators/ApiSuccessResponse.decorator'
 import { FilesUpdateRequestDto, FilesUpdateResponseDto } from './dtos/filesUpload.dto'
 
 @Controller('util')
