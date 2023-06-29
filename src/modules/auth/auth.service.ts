@@ -3,8 +3,8 @@ import { JwtService } from '@nestjs/jwt'
 import { CommonException } from 'src/common/exception'
 import { UserEntity } from '../user/entities/User.entity'
 import { UserService } from '../user/user.service'
-import { LoginRequestDto } from './dtos/login.dto'
-import { RegisterRequestDto } from './dtos/register.dto'
+import { LoginBodyDto } from './dtos/LoginBody.dto'
+import { RegisterBodyDto } from './dtos/RegisterBody.dto'
 
 @Injectable()
 export class AuthService {
@@ -14,25 +14,25 @@ export class AuthService {
   @Inject(JwtService)
   private jwtService: JwtService
 
-  async register(registerRequestDto: RegisterRequestDto) {
-    let user = await this.userService.findOneBy({ userName: registerRequestDto.userName })
+  async register(bodyDto: RegisterBodyDto) {
+    let user = await this.userService.findOneBy({ userName: bodyDto.userName })
 
     if (user)
       throw CommonException.USER_EXIST
 
     user = new UserEntity()
-    user.userName = registerRequestDto.userName
-    user.password = registerRequestDto.password
+    user.userName = bodyDto.userName
+    user.password = bodyDto.password
 
     await this.userService.save(user)
 
     return null
   }
 
-  async userLogin(loginRequestDto: LoginRequestDto) {
+  async userLogin(bodyDto: LoginBodyDto) {
     const user = await this.userService.findOneBy({
-      userName: loginRequestDto.userName,
-      password: loginRequestDto.password,
+      userName: bodyDto.userName,
+      password: bodyDto.password,
     })
 
     if (!user)

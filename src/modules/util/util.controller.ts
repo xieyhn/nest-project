@@ -8,7 +8,8 @@ import { configuration } from 'src/common/configuration'
 import { get } from 'lodash'
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger'
 import { ApiSuccessResponse } from 'src/decorators/ApiSuccessResponse.decorator'
-import { FilesUpdateRequestDto, FilesUpdateResponseDto } from './dtos/filesUpload.dto'
+import { FilesUploadBodyDto } from './dtos/FilesUploadBody.dto'
+import { FilesUploadResultDto } from './dtos/FilesUploadResult.dto'
 
 @Controller('util')
 @ApiTags('util')
@@ -18,9 +19,9 @@ export class UtilController {
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     description: '多文件上传',
-    type: FilesUpdateRequestDto,
+    type: FilesUploadBodyDto,
   })
-  @ApiSuccessResponse(FilesUpdateResponseDto)
+  @ApiSuccessResponse(FilesUploadResultDto)
   @UseInterceptors(FilesInterceptor('files', 9, {
     storage: diskStorage({
       destination: (_, __, cb) => {
@@ -33,7 +34,7 @@ export class UtilController {
     }),
   }))
   @UseGuards(AuthorizationGuard)
-  upload(@UploadedFiles() files: Array<Express.Multer.File>): FilesUpdateResponseDto {
+  upload(@UploadedFiles() files: Array<Express.Multer.File>): FilesUploadResultDto {
     return {
       files: files.map(file => file.filename),
     }

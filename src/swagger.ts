@@ -1,6 +1,6 @@
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { ResultDto } from './dtos/result.dto'
+import { ResponseDto } from './dtos/Response.dto'
 
 export function setup(app: NestExpressApplication) {
   const config = new DocumentBuilder()
@@ -9,7 +9,7 @@ export function setup(app: NestExpressApplication) {
     .setVersion('1.0')
     .build()
   const document = SwaggerModule.createDocument(app, config, {
-    extraModels: [ResultDto],
+    extraModels: [ResponseDto],
   })
 
   SwaggerModule.setup('/swagger', app, document)

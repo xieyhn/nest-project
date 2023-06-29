@@ -1,8 +1,10 @@
 import { Body, Controller, HttpCode, HttpStatus, Inject, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { LoginRequestDto } from './dtos/login.dto'
+import { ApiSuccessResponse } from 'src/decorators/ApiSuccessResponse.decorator'
+import { LoginBodyDto } from './dtos/LoginBody.dto'
 import { AuthService } from './auth.service'
-import { RegisterRequestDto } from './dtos/register.dto'
+import { RegisterBodyDto } from './dtos/RegisterBody.dto'
+import { LoginResultDto } from './dtos/LoginResult.dto'
 
 @Controller('/auth')
 @ApiTags('auth')
@@ -12,13 +14,15 @@ export class AuthController {
 
   @Post('/register')
   @HttpCode(HttpStatus.OK)
-  register(@Body() registerRequestDto: RegisterRequestDto) {
-    return this.authService.register(registerRequestDto)
+  @ApiSuccessResponse()
+  register(@Body() bodyDto: RegisterBodyDto) {
+    return this.authService.register(bodyDto)
   }
 
   @Post('/login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() loginRequestDto: LoginRequestDto) {
-    return this.authService.userLogin(loginRequestDto)
+  @ApiSuccessResponse(LoginResultDto)
+  login(@Body() bodyDto: LoginBodyDto): Promise<LoginResultDto> {
+    return this.authService.userLogin(bodyDto)
   }
 }
