@@ -1,5 +1,5 @@
 import { format, transports } from 'winston'
-import { WinstonModuleOptions, WinstonModuleOptionsFactory } from 'nest-winston'
+import type { WinstonModuleOptions, WinstonModuleOptionsFactory } from 'nest-winston'
 import { ConfigService } from '@nestjs/config'
 import { Inject, Injectable } from '@nestjs/common'
 import DailyRotateFile from 'winston-daily-rotate-file'

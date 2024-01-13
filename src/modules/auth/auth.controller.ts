@@ -1,9 +1,9 @@
 import { Body, Controller, HttpCode, HttpStatus, Inject, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiSuccessResponse } from 'src/decorators/ApiSuccessResponse.decorator'
-import { LoginBodyDto } from './dtos/LoginBody.dto'
+import type { LoginBodyDto } from './dtos/LoginBody.dto'
 import { AuthService } from './auth.service'
-import { RegisterBodyDto } from './dtos/RegisterBody.dto'
+import type { RegisterBodyDto } from './dtos/RegisterBody.dto'
 import { LoginResultDto } from './dtos/LoginResult.dto'
 
 @Controller('/auth')

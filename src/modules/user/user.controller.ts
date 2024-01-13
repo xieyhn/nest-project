@@ -1,5 +1,5 @@
 import { Controller, HttpCode, HttpStatus, Inject, Post, Req, UseGuards } from '@nestjs/common'
-import { Request } from 'express'
+import type { Request } from 'express'
 import { AuthorizationGuard } from 'src/guards/Authorization.guard'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiSuccessResponse } from 'src/decorators/ApiSuccessResponse.decorator'

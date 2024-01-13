@@ -1,6 +1,7 @@
-import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common'
+import type { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common'
 import { instanceToPlain } from 'class-transformer'
-import { Observable, map } from 'rxjs'
+import type { Observable } from 'rxjs'
+import { map } from 'rxjs'
 
 export interface Response<T> {
   code: number

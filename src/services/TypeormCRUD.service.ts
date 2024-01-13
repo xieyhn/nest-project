@@ -1,4 +1,4 @@
-import { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository, SaveOptions } from 'typeorm'
+import type { FindManyOptions, FindOneOptions, FindOptionsWhere, Repository, SaveOptions } from 'typeorm'
 
 export abstract class TypeormCRUDService<Entity> {
   abstract repository: Repository<Entity>

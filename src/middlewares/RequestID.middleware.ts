@@ -1,6 +1,6 @@
-import { NestMiddleware } from '@nestjs/common'
+import type { NestMiddleware } from '@nestjs/common'
 import { v4 as uuidV4 } from 'uuid'
-import { Request, Response } from 'express'
+import type { Request, Response } from 'express'
 
 export class RequestIDMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: () => void) {

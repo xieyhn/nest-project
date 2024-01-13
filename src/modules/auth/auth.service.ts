@@ -3,8 +3,8 @@ import { JwtService } from '@nestjs/jwt'
 import { CommonException } from 'src/common/exception'
 import { UserEntity } from '../user/entities/User.entity'
 import { UserService } from '../user/user.service'
-import { LoginBodyDto } from './dtos/LoginBody.dto'
-import { RegisterBodyDto } from './dtos/RegisterBody.dto'
+import type { LoginBodyDto } from './dtos/LoginBody.dto'
+import type { RegisterBodyDto } from './dtos/RegisterBody.dto'
 
 @Injectable()
 export class AuthService {

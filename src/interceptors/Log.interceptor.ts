@@ -1,6 +1,7 @@
-import { CallHandler, ExecutionContext, LoggerService, NestInterceptor } from '@nestjs/common'
-import { Observable, tap } from 'rxjs'
-import { Request } from 'express'
+import type { CallHandler, ExecutionContext, LoggerService, NestInterceptor } from '@nestjs/common'
+import type { Observable } from 'rxjs'
+import { tap } from 'rxjs'
+import type { Request } from 'express'
 
 export class LogInterceptor implements NestInterceptor {
   constructor(
